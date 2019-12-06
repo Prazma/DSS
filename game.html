@@ -72,7 +72,7 @@
     <div id="startMenu">
         <h4>Dance<br>Shape<br>Shot<br>!!!!</h4>
         <button onclick="startGameTrig()">START</button>
-        <h5>脳トレ音ゲー by Tomo</h5>
+        <h5>Fit the Shape!</h5>
     </div>
     <div id="scoreBoard">
         <strong>Score: </strong><span id="score" >0</span>
@@ -84,7 +84,7 @@
         <button onclick="location.reload()">RETRY</button>
     </div>
     <script>
-        var bpm = 126;
+        var bpm = 127;
         var audi = new Audio("./audio/mufleSample.wav");
         var rot = [];
         var rotP, movP;
@@ -96,8 +96,8 @@
 
         var confirmSound = new Audio("./audio/match-confirm.wav");
 
-        var beatMapTime = [1, 0, 2, 0, 3, 0, 2, 0, 3, 0, 2, 0, 1, 2, 3, 4, 3, 2, 1, 2, 2, 3, 0, 0, 2, 0, 3, 0, 2, 0, 0, 1, 2, 3, 4, 3, 2, 3, 2, 0, 2, 0, 3, 0, 2, 0, 0, 1, 2, 3, 4, 3, 2, 3, 2, 0, 2, 0, 3, 0, 2, 0, 0, 1, 2, 3, 4, 3, 2, 3, 2, 0, 2, 0, 3, 0, 2, 0, 0, 1, 2, 3, 4, 3, 2, 3, 2];
-        var beatMapType = [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1];
+        var beatMapTime = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 2, 0, 0, 2, 0, 3, 2, 3, 0, 0, 2, 3, 2, 3, 2, 3, 2, 1, 0, 2, 1, 2, 1, 2, 3, 4, 3, 4, 3, 2, 1, 2, 1, 2, 1, 0, 2, 0, 3, 2, 3, 0, 0, 2, 3, 2, 3, 2, 3, 2, 1, 0, 2, 1, 2, 1, 2, 3, 4, 3, 4, 3, 2, 1, 2, 1, 2, 1];
+        var beatMapType = [0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1];
         var onBeat = 0;
 
         var playerPosition = 1;
@@ -190,19 +190,19 @@
                 dKeyRelease = true;
                 movP =  new Audio("./audio/mov.wav");
                 mov.push(movP);
-                mov[mov.length-1].play();
+                // mov[mov.length-1].play();
                 if (playerPosition != 1) {
-                    playerPosition -= 1;
+                    moveAnim("left",0);
                 } else {
                     playerPosition = 4;
                 }
             } else if (fKeyPressed == true && fKeyRelease == false) {
                 movP = new Audio("./audio/mov.wav");
                 mov.push(movP);
-                mov[mov.length - 1].play();
+                // mov[mov.length - 1].play();
                 fKeyRelease = true;
                 if (playerPosition != 4) {
-                    playerPosition += 1;
+                    moveAnim("right", 0);
                 } else {
                     playerPosition = 1;
                 }
@@ -210,7 +210,7 @@
                 jKeyRelease = true;
                 rotP = new Audio("./audio/rot.wav")
                 rot.push(rotP);
-                rot[rot.length-1].play();
+                // rot[rot.length-1].play();
 
                 if (playerPosition != 1) {
                     playerPosition -= 1;
@@ -227,7 +227,7 @@
                 kKeyRelease = true;
                 rotP = new Audio("./audio/rot.wav")
                 rot.push(rotP);
-                rot[rot.length-1].play();
+                // rot[rot.length-1].play();
 
                 if (playerPosition != 4) {
                     playerPosition += 1;
@@ -263,14 +263,13 @@
             }
 
         }
-        var cane = 1;
+        var cane = 2;
 
         function startTimer() {
             if (audi.currentTime * 100 >= (dd / 2) * cane) {
                 cane += 1;
                 whichKey = beatMapTime[cane - 9];
-                console.log(whichKey);
-                if( cane >= 9 && cane <= beatMapTime.length+9 ) {
+                if( cane >= 9 && cane <= beatMapTime.length+9 && beatMapTime[cane - 9] != 0 ) {
                     if (beatMapTime[cane - 9] == playerPosition || beatMapTime[cane - 8] == playerPosition || beatMapTime[cane - 10] == playerPosition ) {
                         if( beatMapTime[cane-9] == playerPosition && beatMapType[cane - 9] == playerDir ) {
                             scoreA += 300;
@@ -306,7 +305,7 @@
             }
             setTimeout(function () {
                 startTimer();
-            }, 10)
+            }, 1)
         }
 
         function startGameTrig() {
@@ -370,6 +369,21 @@
             }
             var end = new Audio("./audio/failsound.mp3");
             end.play();
+        }
+
+        function moveAnim(d,c) {
+            if( d == "left" ) {
+                playerPosition -= 0.1;
+            } else {
+                playerPosition += 0.1;
+            }
+            setTimeout( function () {
+                if( c <= 8 ) {
+                    moveAnim(d, c+1);
+                } else {
+                    playerPosition = Math.round(playerPosition);
+                }
+            })
         }
     </script>
 </body>
